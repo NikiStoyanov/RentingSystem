@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
 use Illuminate\Http\Request;
 
 class RoomsController extends Controller
@@ -24,7 +25,23 @@ class RoomsController extends Controller
      */
     public function store(Request $request)
     {
-        return 'Rooms model to create';
+        $size = $request->input('size');
+        $desk_capacity = $request->input('desk_capacity');
+        $user_id = $request->input('user_id');
+
+        $room = new Room([
+            'size' => $size,
+            'desk_capacity' => $desk_capacity,
+            'user_id' => $user_id
+        ]);
+        $room->save();
+
+        $response = [
+            'msg' => 'Room created',
+            'room' => $room
+        ];
+
+        return response()->json($response, 201);
     }
 
     /**
@@ -59,16 +76,5 @@ class RoomsController extends Controller
     public function destroy($id)
     {
         return "Room model to delete: " . $id;
-    }
-
-    /**
-     * Show desks in the rooms.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function desks(int $id)
-    {
-        return "Desks of one room: " . $id;
     }
 }

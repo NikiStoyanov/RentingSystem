@@ -9,7 +9,7 @@ class Room extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['size'];
+    protected $fillable = ['desk_capacity', 'size'];
 
     public function user() {
         return $this->belongsTo('App\User');

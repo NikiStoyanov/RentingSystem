@@ -16,7 +16,8 @@ class CreateRoomsTable extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->string('size');
-            $table->foreignId('user_id')->constrained('users');
+            $table->integer('desk_capacity');
+            $table->foreignId('user_id')->default('1')->constrained('users');
             $table->timestamps();
         });
     }
