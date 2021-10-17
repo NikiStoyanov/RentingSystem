@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\RoomsController;
+use App\Http\Controllers\DesksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,11 @@ use App\Http\Controllers\MeetingController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::resource('meeting', MeetingController::class);
+Route::resource('rooms', RoomsController::class);
+
+Route::resource('desks', DesksController::class);
+
+Route::resource('rooms/desks', DesksController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
