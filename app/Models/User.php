@@ -23,6 +23,6 @@ class User extends Authenticatable
     ];
 
     public function rooms() {
-        return $this->hasMany('App\Room');
+        return $this->hasMany('App\Models\Room');
     }
 }

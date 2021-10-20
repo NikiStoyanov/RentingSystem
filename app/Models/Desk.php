@@ -12,6 +12,6 @@ class Desk extends Model
     protected $fillable = ['is_taken', 'price', 'size', 'position'];
 
     public function room() {
-        return $this->belongsTo('App\Room');
+        return $this->belongsTo('App\Models\Room');
     }
 }

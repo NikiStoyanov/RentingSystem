@@ -14,7 +14,14 @@ class RoomsController extends Controller
      */
     public function index()
     {
-        return 'All rooms';
+        $rooms = Room::All();
+
+        $response = [
+            'msg' => 'List of all rooms',
+            'rooms' => $rooms
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
@@ -52,7 +59,14 @@ class RoomsController extends Controller
      */
     public function show($id)
     {
-        return 'Room number:' . $id;
+        $room = Room::findOrFail($id);
+
+        $response = [
+            'msg' => 'Room Information',
+            'room' => $room
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
@@ -64,7 +78,22 @@ class RoomsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return "Room model to update: " . $id;
+        $size = $request->input('size');
+        $desk_capacity = $request->input('desk_capacity');
+        $user_id = $request->input('user_id');
+
+        $room = Room::findOrFail($id);
+        $room->size = $size;
+        $room->desk_capacity = $desk_capacity;
+        $room->user_id = $user_id;
+        $room->update();
+
+        $response = [
+            'msg' => 'Room updated',
+            'room' => $room
+        ];
+
+        return response()->json($response, 201);
     }
 
     /**
@@ -75,6 +104,14 @@ class RoomsController extends Controller
      */
     public function destroy($id)
     {
-        return "Room model to delete: " . $id;
+        $room = Room::findOrFail($id);
+
+        $room->delete();
+
+        $response = [
+            'msg' => 'Room deleted',
+        ];
+
+        return response()->json($response, 200);
     }
 }

@@ -12,10 +12,10 @@ class Room extends Model
     protected $fillable = ['desk_capacity', 'size'];
 
     public function user() {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function desks() {
-        return $this->hasMany('App\Desk');
+        return $this->hasMany('App\Models\Desk');
     }
 }
