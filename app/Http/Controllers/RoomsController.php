@@ -106,6 +106,8 @@ class RoomsController extends Controller
     {
         $room = Room::findOrFail($id);
 
+        $room->desks()->delete();
+
         $room->delete();
 
         $response = [
