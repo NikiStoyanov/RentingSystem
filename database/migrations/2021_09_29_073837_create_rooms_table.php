@@ -17,7 +17,7 @@ class CreateRoomsTable extends Migration
             $table->id();
             $table->string('size');
             $table->integer('desk_capacity');
-            $table->foreignId('user_id')->default('1')->constrained('users');
+            $table->foreignId('room_manager_id')->default('1')->constrained('users');
             $table->timestamps();
         });
     }

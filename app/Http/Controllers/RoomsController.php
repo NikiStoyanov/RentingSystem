@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class RoomsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth.role:admin');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -99,10 +104,10 @@ class RoomsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $room = Room::findOrFail($id);
 
@@ -115,5 +120,38 @@ class RoomsController extends Controller
         ];
 
         return response()->json($response, 200);
+    }
+
+    /**
+     * @param int  $room_id
+     * @param int  $room_manager_id
+     * @return \Illuminate\Http\Response
+     */
+    public function assign(int $room_id, int $room_manager_id){
+        $room = Room::findOrFail($room_id);
+
+        $room_manager = User::findOrFail($room_manager_id);
+
+        if ($room_manager->role != 'room_manager') {
+            $room_manager->role = 'room_manager';
+        }
+        else {
+
+            $response = [
+                'msg' => 'Cannot assign this user to the given room'
+            ];
+
+            return response()->json($response, 400);
+        }
+
+        $room->room_manager_id = $room_manager_id;
+
+        $response = [
+            'msg' => 'User assigned to the given room successfully.',
+            'room' => $room,
+            'room_manager' => $room_manager
+        ];
+
+        return response()->json($response, 201);
     }
 }

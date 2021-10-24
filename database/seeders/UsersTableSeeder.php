@@ -17,7 +17,8 @@ class UsersTableSeeder extends Seeder
         $user = new User([
             'name' => 'Nikolay',
             'email' => 'nikistoyanov2005@gmail.com',
-            'password' => bcrypt('Niki_2005')
+            'password' => bcrypt('Niki_2005'),
+            'role' => 'admin'
         ]);
         $user->save();
 

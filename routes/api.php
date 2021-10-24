@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomsController;
 use App\Http\Controllers\DesksController;
+use App\Http\Controllers\ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +16,25 @@ use App\Http\Controllers\DesksController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::resource('rooms', RoomsController::class);
 
-Route::resource('desks', DesksController::class);
 
-Route::resource('rooms/desks', DesksController::class);
+Route::post('login', [ApiController::class, 'login']);
+Route::post('register', [ApiController::class, 'register']);
+
+Route::group(['middleware' => ['jwt.verify']], function() {
+    Route::get('logout', [ApiController::class, 'logout']);
+    Route::get('get_user', [ApiController::class, 'get_user']);
+
+    Route::resource('rooms', RoomsController::class);
+    Route::post('rooms/assign', [RoomsController::class, 'assign']);
+
+    Route::resource('desks', DesksController::class);
+    Route::get('products', [ProductController::class, 'index']);
+    Route::get('products/{id}', [ProductController::class, 'show']);
+    Route::post('create', [ProductController::class, 'store']);
+    Route::put('update/{product}',  [ProductController::class, 'update']);
+    Route::delete('delete/{product}',  [ProductController::class, 'destroy']);
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
