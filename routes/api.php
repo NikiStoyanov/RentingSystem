@@ -29,11 +29,6 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('rooms/assign', [RoomsController::class, 'assign']);
 
     Route::resource('desks', DesksController::class);
-    Route::get('products', [ProductController::class, 'index']);
-    Route::get('products/{id}', [ProductController::class, 'show']);
-    Route::post('create', [ProductController::class, 'store']);
-    Route::put('update/{product}',  [ProductController::class, 'update']);
-    Route::delete('delete/{product}',  [ProductController::class, 'destroy']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
