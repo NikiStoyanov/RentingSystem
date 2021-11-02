@@ -20,6 +20,7 @@ class CreateDesksTable extends Migration
             $table->string('size');
             $table->string('position');
             $table->foreignId('room_id')->default(1)->constrained('rooms');
+            $table->foreignId('user_id')->default(1)->constrained('users');
             $table->timestamps();
         });
     }

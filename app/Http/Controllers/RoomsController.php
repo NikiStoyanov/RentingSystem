@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class RoomsController extends Controller
@@ -10,6 +11,7 @@ class RoomsController extends Controller
     public function __construct()
     {
         $this->middleware('auth.role:admin');
+        $this->middleware('auth.role:room_manager');
     }
 
     /**
@@ -20,7 +22,6 @@ class RoomsController extends Controller
     public function index()
     {
         $rooms = Room::All();
-
         $response = [
             'msg' => 'List of all rooms',
             'rooms' => $rooms
@@ -64,6 +65,16 @@ class RoomsController extends Controller
      */
     public function show($id)
     {
+        $user = User::findOrFail(auth()->user()->getAuthIdentifier());
+
+        if ($user->room_id != $id) {
+            $response = [
+                'msg' => 'You aren\'t room manager of this room.'
+            ];
+
+            return response()->json($response, 401);
+        }
+
         $room = Room::findOrFail($id);
 
         $response = [

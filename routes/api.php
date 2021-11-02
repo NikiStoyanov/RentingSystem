@@ -27,6 +27,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
     Route::resource('rooms', RoomsController::class);
     Route::post('rooms/assign', [RoomsController::class, 'assign']);
+    Route::post('desks/rent', [DesksController::class, 'rent']);
 
     Route::resource('desks', DesksController::class);
 });
