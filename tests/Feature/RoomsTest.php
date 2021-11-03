@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Room;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -13,10 +14,33 @@ class RoomsTest extends TestCase
      *
      * @return void
      */
-    public function create_room()
+    public function testRoomManagerShouldBeTheAdmin_IfNoRoomManagerIdIsGiven()
     {
-        $response = $this->get('/');
+        $room = new Room([
+            'desk_capacity' => 100,
+            'size' => 'medium'
+        ]);
+        $room->save();
 
-        $response->assertStatus(200);
+        $room2 = Room::findOrFail($room->id);
+
+        $this->assertEquals('1', $room2->user_id);
+    }
+
+    public function testRoomSizeUpdating()
+    {
+        $room = new Room([
+            'desk_capacity' => 100,
+            'size' => 'medium'
+        ]);
+        $room->save();
+
+        $room = Room::findOrFail($room->id);
+
+        $room->size = 'large';
+
+        $room->save();
+
+        $this->assertEquals('large', $room->size);
     }
 }
